@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0a0d12" />
+  <title>Rucker '89: The Pattern</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --hud-green:  #00ff88;
+      --hud-amber:  #ffb800;
+      --hud-red:    #ff3b30;
+      --panel-bg:   rgba(0, 10, 20, 0.85);
+      --panel-border: rgba(0, 255, 136, 0.3);
+      --font-mono:  'Courier New', Courier, monospace;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #0a0d12;
+      overflow: hidden;
+      font-family: var(--font-mono);
+      color: var(--hud-green);
+      cursor: crosshair;
+    }
+
+    #app {
+      position: relative;
+      width: 100vw; height: 100vh;
+    }
+
+    #canvas-container {
+      position: absolute; inset: 0;
+    }
+
+    #canvas-container canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* Loading Screen */
+    #loading {
+      position: fixed; inset: 0;
+      background: #0a0d12;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.8s ease;
+    }
+
+    #loading.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #loading-title {
+      font-size: clamp(1.2rem, 4vw, 2.5rem);
+      letter-spacing: 0.3em;
+      color: var(--hud-green);
+      text-shadow: 0 0 20px var(--hud-green);
+      margin-bottom: 0.5rem;
+    }
+
+    #loading-sub {
+      font-size: clamp(0.6rem, 1.5vw, 0.85rem);
+      letter-spacing: 0.5em;
+      color: var(--hud-amber);
+      margin-bottom: 2.5rem;
+    }
+
+    #loading-bar-wrap {
+      width: min(400px, 80vw);
+      height: 3px;
+      background: rgba(0,255,136,0.15);
+      border: 1px solid var(--panel-border);
+    }
+
+    #loading-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--hud-green);
+      box-shadow: 0 0 10px var(--hud-green);
+      transition: width 0.1s ease;
+    }
+
+    #loading-status {
+      margin-top: 1rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: rgba(0,255,136,0.6);
+      height: 1.2em;
+    }
+
+    /* HUD overlay layer */
+    #hud-layer {
+      position: absolute; inset: 0;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* Modal / Menu layer */
+    #ui-layer {
+      position: absolute; inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Instructor panel */
+    #instructor-panel {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(600px, 90vw);
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      backdrop-filter: blur(8px);
+      padding: 1rem 1.25rem;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      z-index: 150;
+      pointer-events: none;
+      display: none;
+    }
+
+    #instructor-panel.visible { display: block; }
+    #instructor-callsign {
+      color: var(--hud-amber);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      margin-bottom: 0.4rem;
+    }
+    #instructor-text { color: var(--hud-green); }
+
+    /* Scanline overlay */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9998;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Loading screen -->
+    <div id="loading">
+      <div id="loading-title">RUCKER '89</div>
+      <div id="loading-sub">THE PATTERN · FORT RUCKER · HOME OF ARMY AVIATION</div>
+      <div id="loading-bar-wrap">
+        <div id="loading-bar"></div>
+      </div>
+      <div id="loading-status">INITIALIZING FLIGHT SYSTEMS...</div>
+    </div>
+
+    <!-- Three.js canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- HUD overlay -->
+    <div id="hud-layer">
+      <canvas id="hud-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+    </div>
+
+    <!-- Instructor panel -->
+    <div id="instructor-panel">
+      <div id="instructor-callsign">WO2 HAYES · IP · ALPHA COMPANY</div>
+      <div id="instructor-text"></div>
+    </div>
+
+    <!-- UI layer (menus, checklists) -->
+    <div id="ui-layer"></div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

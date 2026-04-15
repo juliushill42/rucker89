@@ -1,0 +1,36 @@
+{
+  "name": "rucker89",
+  "version": "1.0.0",
+  "description": "Rucker '89: The Pattern — Fort Rucker Helicopter Simulator",
+  "type": "module",
+  "scripts": {
+    "dev":      "vite --mode development",
+    "build":    "tsc --noEmit && vite build",
+    "build:dev":"vite build --mode development",
+    "preview":  "vite preview --port 4173",
+    "typecheck":"tsc --noEmit",
+    "server":   "tsc --project server/tsconfig.server.json && node server/dist/index.js",
+    "lint":     "eslint src --ext .ts --fix",
+    "clean":    "rimraf dist server/dist logs"
+  },
+  "dependencies": {
+    "three":            "^0.165.0",
+    "@types/three":     "^0.165.0",
+    "express":          "^4.19.2",
+    "cors":             "^2.8.5",
+    "better-sqlite3":   "^9.6.0",
+    "dotenv":           "^16.4.5"
+  },
+  "devDependencies": {
+    "typescript":        "^5.4.5",
+    "vite":              "^5.2.11",
+    "@types/node":       "^20.12.11",
+    "@types/express":    "^4.17.21",
+    "@types/cors":       "^2.8.17",
+    "@types/better-sqlite3": "^7.6.10",
+    "rimraf":            "^5.0.7"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
