@@ -72,4 +72,4 @@ Open a Pull Request
 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-Developer Tip: Since you are using main.cjs alongside TypeScript, ensure your tsconfig.json is configured to output to the correct directory before running your build scripts. Would you like me to help refine the FlightModel.ts documentation or create a specific "How to Fly" guide for the README?
+Developer Tip: Since you are using main.cjs alongside TypeScript, ensure your tsconfig.json is configured to output to the correct directory before running your build scripts. 
